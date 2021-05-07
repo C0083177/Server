@@ -5,17 +5,8 @@ public class Insert
     private static final String SQL_INSERT = "INSERT INTO BOOKS (ISBN, NAME, AUTHOR, PUBLISHER, LANGUAGE) VALUES (?,?,?,?,?)";
 
 
-    public Insert(String[] args)
-    {
-        try (
-                //Create a connection
-                Connection conn = DriverManager.getConnection(
-                        "jdbc:mysql://localhost:3306/mydb?useSSL=false",
-                        "root", "3001");   // For MySQL only
+    public Insert(String[] args) throws SQLException {
 
-                //Create a statement in the SQL connection
-                Statement statement = conn.createStatement();
-        )
         {
             //Build SQL statement
             PreparedStatement stmt=conn.prepareStatement(SQL_INSERT);

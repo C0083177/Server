@@ -1,7 +1,7 @@
 import java.net.*;
 import java.io.*;
+import java.sql.SQLException;
 import java.util.Scanner;
-import java.util.regex.PatternSyntaxException;
 
 public class Server {
 
@@ -21,7 +21,7 @@ public class Server {
                         String response = handleInput(input);
                         out.println(response);
                     }
-                } catch (IOException e) {
+                } catch (IOException | SQLException e) {
                     e.printStackTrace();
                 }
             }
@@ -31,28 +31,22 @@ public class Server {
     }
 
     //Splits the input down into an array and performs checks
-    public static String handleInput(String input) {
+    public static String handleInput(String input) throws SQLException {
 
         String[] splitInput = input.split("\\s+");
         String bookCheck = splitInput[0];
         String actionCheck = splitInput[1];
-        String titleCheck = splitInput[2];
 
         if (bookCheck.equalsIgnoreCase("Book")) {
-        } else {
-            System.out.println("Invalid - please start your query with the word Book");
-        }
-        if (actionCheck.equalsIgnoreCase("Add")) {
-            System.out.println("Should trigger Add");
-            Insert i = new Insert(splitInput);
-        } else if (actionCheck.equalsIgnoreCase("Search")) {
-            System.out.println("Should trigger search");
-            String searchQuery = splitInput[2] + splitInput[3];
-            return searchQuery;
-        } else {
-            System.out.println("Add or Search not defined");
-        }
-
+            if (actionCheck.equalsIgnoreCase("Add")) {
+                System.out.println("Should trigger Add");
+                Database i = new Database(splitInput);
+            } else if (actionCheck.equalsIgnoreCase("Search")) {
+                System.out.println(input);
+            } else {
+                System.out.println("Add or Search not defined");
+            }
+        } else {System.out.println ("Invalid entry - Please start your query with the word Book!");}
         return input;
     }
 }
